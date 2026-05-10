@@ -2,6 +2,7 @@ fx_version 'adamant'
 game 'gta5' 
 lua54 'yes'
 
+
 server_script '@oxmysql/lib/MySQL.lua'
 
 shared_script
@@ -17,3 +18,5 @@ client_scripts {
 server_scripts { 
 	"server/server.lua"
 } 
+
+

@@ -1,20 +1,31 @@
-local fivemID = ""
+local timer = 3000
+local lastpress = 0
 
--- Register the event so the server can 'see' it
+
+
 RegisterNetEvent("myClientEvent:receiveIdentifiers")
-AddEventHandler("myClientEvent:receiveIdentifiers", function(licensestring)
-    -- 'idTable' is the 'identifiers' text sent from the server
-    fivemID = licensestring
-    
+AddEventHandler("myClientEvent:receiveIdentifiers", function(ShouldGivePack)
+
+    if ShouldGivePack then
+        lib.notify({
+            title = 'Starter Pack Claimed',
+            type = 'success'
+        })  
+    else
+        lib.notify({
+            title = 'You have already claimed the starter pack!',
+            type = 'failure'
+        })  
+    end
+
 end)
 
--- To start the process:
 RegisterCommand("getmyids", function()
     TriggerServerEvent("myServerEvent:getIdentifier")
 end, false)
 --------------------------------------------------
-local pedHash = "a_m_y_breakdance_01" 
-local pedCoords = vector4(352.93 , -621.24, 29.27, 0.0)
+local pedHash = GetConvar("starter_npc_model", "")
+local pedCoords = vector4(351.50 , -622.48, 29.29, 68.46)
 
 Citizen.CreateThread(function()
 
@@ -64,6 +75,7 @@ end
 
 function onExit()
     lib.hideTextUI()
+    pressed = false
 end
 
 function inside()
@@ -83,17 +95,18 @@ function inside()
     GlobalThread = Citizen.CreateThread(function() 
 
         if IsControlJustReleased(0,  54) then
-            --trigger event to check/give starter pack vehicle/s THEN notify, wait until the process is done (all of this is async)
-            local IsClaimedAlready = false
-            local hasNotClaimed = false
-
-            TriggerServerEvent("myServerEvent:getIdentifier") --calling the server event here which calls the client event and passes the data
-
-            lib.notify({
-            title = 'Starter Pack Claimed',
-            description = fivemID,
-            type = 'success'
-            })
+            --trigger event to check/give starter pack vehicle/s THEN notify, wait until the process is done (all of this is async) remember to account for it 
+            local currentTime = GetGameTimer()
+            
+            
+            if (currentTime - lastpress) > timer then
+                TriggerServerEvent("myServerEvent:getIdentifier")
+                
+                lastpress = currentTime
+            else
+                
+            end
+            
             
         end
 
