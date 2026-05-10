@@ -22,7 +22,9 @@ A simple, customizable resource for Qbox on FiveM, providing server owners with 
    set car_model "adder"        # Replace with the vehicle you want to give (e.g., "sultan", "zentorno")
    set ped_model "a_m_m_skater_01"  # Replace with the desired PED model
    ```
-
+4. **Add Sql table to database:**
+   - Run Mysql.sql on your database file to create necessary table for the resource
+   
 ## Usage
 
 - The configured NPC will spawn in the designated location.
