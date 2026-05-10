@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
         Wait(10)
     end
     
-    local ped = CreatePed(4, GetHashKey(pedHash), pedCoords.x, pedCoords.y, pedCoords.z - 1, 150.0, true, true)
+    local ped = CreatePed(4, GetHashKey(pedHash), pedCoords.x, pedCoords.y, pedCoords.z - 1, 150.0, false, false)
 
     while not DoesEntityExist(ped)do
         Citizen.Wait(10)
