@@ -5,7 +5,6 @@ A simple, customizable resource for Qbox on FiveM, providing server owners with 
 ## Features
 
 - **NPC Giveaway:** Adds an interactive NPC to your Qbox server that distributes vehicles to players.
-- **Simple Integration:** Drop-in ready for your FiveM server.
 
 ## Installation
 
@@ -30,7 +29,7 @@ A simple, customizable resource for Qbox on FiveM, providing server owners with 
 - The configured NPC will spawn in the designated location.
 - Players can interact with the NPC to receive the specified vehicle.
 - Adjust `starter_given_vehicle` and `starter_npc_model` convars at any time to update the NPC's behavior.
-- Edit the vector4 in client.lua with the location and heading you want to put the npc at.
+- Edit the vector4 on the top of client.lua with the location and heading you want to put the npc at.
 ## Example Configuration
 
 ```
