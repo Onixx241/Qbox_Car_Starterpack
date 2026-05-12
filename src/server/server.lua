@@ -1,7 +1,7 @@
 local player = exports.qbx_core:GetPlayer(source) -- doesnt work :(
 
-RegisterNetEvent("myServerEvent:getIdentifier")
-AddEventHandler("myServerEvent:getIdentifier", function()
+RegisterNetEvent("myServerEvent:claimPack")
+AddEventHandler("myServerEvent:claimPack", function()
     
     local playerSrc = source
     local identifiers = GetPlayerIdentifierByType(playerSrc, "license2")
@@ -15,13 +15,13 @@ AddEventHandler("myServerEvent:getIdentifier", function()
 
     --print(player) -- nil
 
-    print(identifiers)
+    --print(identifiers)
     local response = MySQL.query.await('SELECT `citizenid` FROM `players` WHERE `license` = ?', {identifiers} ) 
     
     if response then
 
         _citizenID = response[1].citizenid
-        print(_citizenID) -- remove this when done testing
+        --print(_citizenID) -- remove this when done testing
 
     end
 
@@ -33,12 +33,12 @@ AddEventHandler("myServerEvent:getIdentifier", function()
         ShouldGivePack = true
         AddToTable(response[1].citizenid)
         GiveCar(_citizenID)
-        TriggerClientEvent("myClientEvent:receiveIdentifiers", playerSrc, ShouldGivePack)
+        TriggerClientEvent("myClientEvent:claimPack", playerSrc, ShouldGivePack)
 
     else
     -- Player already received, should NOT give pack
         ShouldGivePack = false
-        TriggerClientEvent("myClientEvent:receiveIdentifiers", playerSrc, ShouldGivePack)
+        TriggerClientEvent("myClientEvent:claimPack", playerSrc, ShouldGivePack)
     end
 
 
