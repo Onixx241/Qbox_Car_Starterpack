@@ -29,9 +29,24 @@ Citizen.CreateThread(function()
 
     
     
+    RequestModel(GetHashKey(pedHash))
+
+    while not HasModelLoaded(GetHashKey(pedHash)) do
+        Wait(10)
+    end
     
-    --local ped = CreatePed(4, GetHashKey(pedHash), pedCoords.x, pedCoords.y, pedCoords.z - 1, 150.0, true, true)
-    
+    local ped = CreatePed(4, GetHashKey(pedHash), pedCoords.x, pedCoords.y, pedCoords.z - 1, 150.0, false, false)
+
+    while not DoesEntityExist(ped) do
+        Citizen.Wait(10)
+    end
+
+    if DoesEntityExist(ped) then
+        SetEntityHeading(ped, 150.0)
+        FreezeEntityPosition(ped, true)
+        SetEntityInvincible(ped, true)
+        SetBlockingOfNonTemporaryEvents(ped, true)
+    end
     
 
     --TaskStartScenarioInPlace(ped, "PROP_HUMAN_BUM_BIN", 0, true)
