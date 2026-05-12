@@ -1,10 +1,12 @@
 local timer = 3000
 local lastpress = 0
 
+local pedHash = GetConvar("starter_npc_model", "")
+local pedCoords = vector4(351.50 , -622.48, 29.29, 68.46)
 
 
-RegisterNetEvent("myClientEvent:receiveIdentifiers")
-AddEventHandler("myClientEvent:receiveIdentifiers", function(ShouldGivePack)
+RegisterNetEvent("myClientEvent:claimPack")
+AddEventHandler("myClientEvent:claimPack", function(ShouldGivePack)
 
     if ShouldGivePack then
         lib.notify({
@@ -20,36 +22,15 @@ AddEventHandler("myClientEvent:receiveIdentifiers", function(ShouldGivePack)
 
 end)
 
-RegisterCommand("getmyids", function()
-    TriggerServerEvent("myServerEvent:getIdentifier")
-end, false)
 --------------------------------------------------
-local pedHash = GetConvar("starter_npc_model", "")
-local pedCoords = vector4(351.50 , -622.48, 29.29, 68.46)
+
 
 Citizen.CreateThread(function()
 
     
-
-    RequestModel(GetHashKey(pedHash))
-
-    while not HasModelLoaded(GetHashKey(pedHash)) do
-        Wait(10)
-    end
     
-    local ped = CreatePed(4, GetHashKey(pedHash), pedCoords.x, pedCoords.y, pedCoords.z - 1, 150.0, false, false)
-
-    while not DoesEntityExist(ped)do
-        Citizen.Wait(10)
-    end
-
-    if DoesEntityExist(ped)then
-        SetEntityHeading(ped, 150.0)
-        SetEntityHeading(ped, 150.0)
-        FreezeEntityPosition(ped, true)
-        SetEntityInvincible(ped, true)
-        SetBlockingOfNonTemporaryEvents(ped, true)
-    end
+    
+    --local ped = CreatePed(4, GetHashKey(pedHash), pedCoords.x, pedCoords.y, pedCoords.z - 1, 150.0, true, true)
     
     
 
@@ -61,7 +42,7 @@ Citizen.CreateThread(function()
     coords = vec3(pedCoords.x, pedCoords.y, pedCoords.z),
     size = vec3(2.5, 2.5, 2),
     rotation = vector3(0,0,0),
-    debug = true,
+    debug = false,
     inside = inside,
     onEnter = onEnter,
     onExit = onExit
@@ -92,24 +73,34 @@ function inside()
     }
     })
 
-    GlobalThread = Citizen.CreateThread(function() 
+    
 
-        if IsControlJustReleased(0,  54) then
-            --trigger event to check/give starter pack vehicle/s THEN notify, wait until the process is done (all of this is async) remember to account for it 
-            local currentTime = GetGameTimer()
+    if IsControlJustReleased(0,  54) then
+        
+        local currentTime = GetGameTimer()
+        
+        
+        if (currentTime - lastpress) > timer then
+            TriggerServerEvent("myServerEvent:claimPack")
             
-            
-            if (currentTime - lastpress) > timer then
-                TriggerServerEvent("myServerEvent:getIdentifier")
-                
-                lastpress = currentTime
-            else
-                
-            end
-            
+            lastpress = currentTime
+        else
             
         end
+        
+        
+    end
 
-    end)
+    
 
 end 
+
+Citizen.CreateThread(function()
+    
+    while true do
+        Citizen.Wait(0)
+        DrawMarker(25, pedCoords.x, pedCoords.y, pedCoords.z - 1, 0.0, 0.0, 0.0, 0.0, 180.0, 0.0, 3.0, 3.0, 3.0, 0, 255, 0, 100, false,false ,false, 2, nil, nil, false)
+        DrawMarker(36, pedCoords.x, pedCoords.y, pedCoords.z + 1.25, 0.0,0.0,0.0,0.0,0.0,0.0,1.0,1.0,1.0,0,255,0,100,true,true,0,true,nil,nil,false)
+    end
+
+end)
