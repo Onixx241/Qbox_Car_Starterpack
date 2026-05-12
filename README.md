@@ -18,8 +18,8 @@ A simple, customizable resource for Qbox on FiveM, providing server owners with 
 
 3. **Configure the resource via convars in your server.cfg:**
    ```bash
-   set starter_given_vehicle "adder" # Replace with the vehicle you want to give (e.g., "sultan", "zentorno")
-   set starter_npc_model "a_m_m_skater_01"  # Replace with the desired PED model
+   setr starter_given_vehicle "adder" # Replace with the vehicle you want to give (e.g., "sultan", "zentorno")
+   setr starter_npc_model "a_m_m_skater_01"  # Replace with the desired PED model
    ```
 4. **Add Sql table to database:**
    - Run Mysql.sql on your database file to create necessary table for the resource
