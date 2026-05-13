@@ -74,6 +74,7 @@ function AddToTable(CitizenID)
 end
 
 function GiveCar(CitizenID)
+
     exports.qbx_vehicles:CreatePlayerVehicle({
     source = source, 
     citizenid = CitizenID,
@@ -84,16 +85,22 @@ function GiveCar(CitizenID)
     garage = 'pillboxgarage', 
     state = 1
     })
-    exports.qbx_vehicles:CreatePlayerVehicle({
-    source = source, 
-    citizenid = CitizenID,
-    model = GetConvar("starter_given_vehicle_two", ""), 
-    plate = RandomString(8),
-    properties = {
-    },
-    garage = 'pillboxgarage', 
-    state = 1
-    })
+
+    if GetConvar("starter_given_vehicle", "") not "" then
+
+        exports.qbx_vehicles:CreatePlayerVehicle({
+        source = source, 
+        citizenid = CitizenID,
+        model = GetConvar("starter_given_vehicle_two", ""), 
+        plate = RandomString(8),
+        properties = {
+        },
+        garage = 'pillboxgarage', 
+        state = 1
+        })
+
+    end
+    
 end
 
 local charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
